@@ -4,6 +4,8 @@ A simple python beacon website
 ## Use Cases
 The main reason to use this is if you're sending an email, or providing a specific webpage for a client and you need to know if the client has viewed it. You can just generate a beacon, embed it in either the page or an HTML based email. When the image is requested, the IP of the requestor will be logged on the Control Panel for you to view. There are some limitations in this method, due to caching and snooping governments/ISPs, as well as email clients serving images themselves rather than direct links, but in general this will provide you with a method to see if the page has been viewed.
 
+When it comes to emails, it is advised to use a Read Receipt as well. A client might decline the read receipt, but you will know they have viewed it anyway. Beacons are more sneaky.
+
 ## Installation
 The only things required for this tool are Python3 and flask (via pip3 install flask).
 
