@@ -33,3 +33,7 @@ Loads a transparent png if beacon exists, or a blank page if it doesn't. This is
 Removes the beacon with the specified ID. This can also be done from the Control Panel.
 
   localhost:5000/remove/[beaconID]
+
+## TODO
+- Add in save/retain functionality.
+- Optional SQL database switch
