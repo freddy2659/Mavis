@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import time
 
 class Beacons:
 
@@ -27,14 +27,16 @@ class Beacon:
         self.id = id
         self.count = 0
         self.ipList = []
+        self.time = time.ctime()
         return
         
     def __str__(self):
         return f"ID: {self.id}, Visits: {self.count}, IPs: {self.ipList}"
         
     def visit(self, ip):
+        now = time.ctime()
         self.count = self.count + 1
-        self.ipList.append(ip)
+        self.ipList.append((ip, now))
         return
         
     def isEnabled(self):

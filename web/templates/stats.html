@@ -24,12 +24,13 @@
 		<div class="cell">{{ val.count }}</div>
 		<div class="cell">
 			<ul>
-			{% for ip in val.ipList %}
+			{% for ip, time in val.ipList %}
 				{% if ip == thisip %}
-				<span class="yourIP"><li>{{ ip }}</li></span>
+				<span class="yourIP">
 				{% else %}
-				<li>{{ ip }}</li>
+				<span>
 				{% endif %}
+				<li>{{ ip }} at {{ time }}</li></span>
 			{% endfor %}
 			</ul>
 		</div>
