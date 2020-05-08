@@ -1,0 +1,23 @@
+.table {
+	display: table;
+	width: 100%;
+}
+.headrow {
+	display: table-header-group;
+	background-color: #EEE;
+	font-weight: bold;
+}
+.row {
+	display: table-row;
+}
+.cell {
+	display: table-cell;
+	padding: 3px 10px;
+	border: 1px solid #888;
+}
+.center {
+	text-align: center;
+}
+.yourIP {
+	color: #1B3;
+}

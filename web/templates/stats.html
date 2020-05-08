@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stats page</title>
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+<h1 class="center">Available Beacons</h1>
+<h2>Your IP is: {{ thisip }}</h2>
+<p>The below beacons are available. Make sure to use a new unique beacon each time for accurate tracking. Keep in mind that the beacon will probably be cached by the users browser/email client and so will only show the first time the beacon is accessed. When you first add a beacon to an email, it will probably log your email clients view as well. If an IP matches your <i>CURRENT</i> IP then it will be marked <span class="yourIP">like this</span> so you know. Your IP address is not necessarily static, so it is possible a view will be by you and not be marked as such. Some privacy centered clients may download the beacon and serve it themselves. In this case, you will only see the users email host IP and that will only mean that it's been delivered.</p>
+<div class="table">
+	<div class="headrow">
+		<div class="cell">BeaconID</div>
+		<div class="cell">Views</div>
+		<div class="cell">IPs</div>
+		<div class="cell">Remove</div>
+	</div>
+{% for key, val in dict.items() %}
+	{% if all or val.isEnabled() %}
+	<div class="row">
+		<div class="cell">
+			{% if val.isEnabled() %}<a href="/{{ val.id }}/{{ sig }}">{% endif %}{{ val.id }}
+			{% if val.isEnabled() %}</a>{% endif %}</div>
+		<div class="cell">{{ val.count }}</div>
+		<div class="cell">
+			<ul>
+			{% for ip in val.ipList %}
+				{% if ip == thisip %}
+				<span class="yourIP"><li>{{ ip }}</li></span>
+				{% else %}
+				<li>{{ ip }}</li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+		</div>
+		<div class="cell">
+			{% if not val.isEnabled() %}
+			&nbsp;
+			{% elif all %}
+			<a href="/remove/{{ val.id }}/all/">Delete</a>
+			{% else %}
+			<a href="/remove/{{ val.id }}/">Delete</a>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+{% endfor %}
+</div>
+<div class="table">
+	<div class="row">
+		<div class="cell center">
+			{% if all %}
+				<a href="/add/{{ range(0, 99999999) | random }}/all/" class="button">Add another</a>
+			{% else %}
+			<a href="/add/{{ range(0, 99999999) | random }}/" class="button">Add another</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
+
+
+
+<!-- BeaconID, Views, IPs -->
