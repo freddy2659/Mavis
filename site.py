@@ -2,8 +2,10 @@
 
 from flask import Flask, render_template, send_from_directory, send_file, request, redirect
 from model import *
+import cfg
 
 app = Flask(__name__, static_url_path='', static_folder='web/static', template_folder='web/templates')
+
 
 @app.route('/add/<beaconID>/')
 @app.route('/add/<beaconID>/<ref>/')
@@ -12,10 +14,11 @@ def create(beaconID, ref=None):
     ref = getReferer(ref, request)
     if beaconID in b.dict:
         print("Beacon already exists")
-        return create(beaconID + 1, ref)
+        return create(beaconID + 1, ref)  # This is a recursive call, it's already saved the pickle
     b.addBeacon(beaconID)
     if beaconID in b.dict:
         print("Added beacon")
+        cfg.save_pickle(b)
         return redirect(ref, code=303)
     else:
         print("Failed to add beacon")
@@ -35,6 +38,7 @@ def update(beaconID, img):
     if beaconID in b.dict and b.dict[beaconID].isEnabled():
         ip_add = getIP(request)
         b.dict[beaconID].visit(ip_add)
+        cfg.save_pickle(b)
         return send_from_directory('web/static', img)
     else:
         return " "  # This could also return a default company signature instead
@@ -45,6 +49,7 @@ def delete(beaconID, ref=None):
     ref = getReferer(ref, request)
     if beaconID in b.dict and b.dict[beaconID].isEnabled():
         b.dict[beaconID].remove()
+        cfg.save_pickle(b)
         print(f"Beacon {beaconID} marked as disabled")
     else:
         print(f"Beacon {beaconID} doesn't exist, or is already disabled")
@@ -85,8 +90,16 @@ def getReferer(urlRef, request):
             else:
                 print("WARNING: HeaderRef and URLRef don't match!")
                 return f"/{urlRef}"
-
+                
 if __name__ == '__main__':
-    b = Beacons('sig.png')
+    b = None
+    if cfg.use_pickle():
+        b = cfg.load_pickle()
+    if cfg.use_sql():
+        b = cfg.load_sql(b)
+    if b is None:
+        b = Beacons('sig.png')
     app.run(host="0.0.0.0", port=5000, debug=True)
+    
+    
     

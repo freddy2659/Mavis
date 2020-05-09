@@ -7,10 +7,12 @@ The main reason to use this is if you're sending an email, or providing a specif
 When it comes to emails, it is advised to use a Read Receipt as well. A client might decline the read receipt, but you will know they have viewed it anyway. Beacons are more sneaky.
 
 ## Installation
-The only things required for this tool are Python3 and flask (via pip3 install flask).
+The only things required for this tool are Python3 and flask (via pip3 install flask)
 
 ## Running
    python site.py
+   
+   Data is stored in data/pickle.dat by default, but this can be changed in cfg.py
    
 ## End points
 
@@ -37,5 +39,6 @@ Removes the beacon with the specified ID. This can also be done from the Control
   localhost:5000/remove/[beaconID]
 
 ## TODO
-- Add in save/retain functionality.
-- Optional SQL database switch
+- SQL database option
+- Some form of security
+- User session tracking via cookies
